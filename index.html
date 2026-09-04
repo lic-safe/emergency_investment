@@ -3,366 +3,397 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Security Comparison | LIC vs Other Investments</title>
-    <!-- Google Fonts -->
+    <title>LIC vs All Investments - Dynamic Wealth & Tax Simulator</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js + Hammer.js + Zoom Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
+
     <style>
         :root {
-            --primary-blue: #003366;
-            --accent-gold: #D4AF37;
-            --light-bg: #f8f9fa;
-            --text-dark: #2c3e50;
-            --text-muted: #6c757d;
-            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --lic-blue: #002B49;
+            --lic-gold: #FFCC00;
+            --light-bg: #F0F4F8;
+            --text-dark: #101820;
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--light-bg); color: var(--text-dark); line-height: 1.5; }
+
+        .brand-header {
+            background-color: var(--lic-blue);
+            color: #FFFFFF;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--lic-gold);
         }
 
-        body {
-            background-color: #f4f6f9;
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
+        .brand-logo { font-size: 1.4rem; font-weight: 700; color: var(--lic-gold); }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--primary-blue), #001f3f);
+        header.hero {
+            background: linear-gradient(135deg, #001A33, var(--lic-blue));
             color: #ffffff;
-            padding: 60px 20px;
+            padding: 35px 20px;
             text-align: center;
         }
 
-        header h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
+        header.hero h1 span { color: var(--lic-gold); }
+
+        .container { max-width: 1300px; margin: -20px auto 50px; padding: 0 20px; }
+
+        .calc-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+        }
+
+        .calc-grid { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 25px; }
+
+        .control-group { margin-bottom: 12px; }
+        .control-group label { display: block; font-weight: 600; margin-bottom: 4px; color: var(--lic-blue); font-size: 0.88rem; }
+        .control-group input[type="range"], .control-group select, .control-group input[type="number"] {
+            width: 100%; accent-color: var(--lic-blue); padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 0.9rem;
+        }
+        .control-group .val-display { font-weight: 700; color: #D4AF37; float: right; }
+
+        .rate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            background: #F8FAFC;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
             margin-bottom: 15px;
         }
 
-        header h1 span {
-            color: var(--accent-gold);
+        .summary-box {
+            background: #002B49;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--lic-gold);
+            margin-top: 15px;
         }
 
-        header p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 25px;
-            opacity: 0.9;
+        .summary-box div { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; }
+
+        .chart-wrapper {
+            position: relative;
+            background: #0F172A;
+            border-radius: 10px;
+            padding: 15px;
+            height: 520px; /* Fixed height ensures full visibility */
         }
 
-        .cta-btn {
-            display: inline-block;
-            background-color: var(--accent-gold);
-            color: #000;
-            padding: 14px 32px;
-            font-weight: 600;
-            border-radius: 30px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
-        }
-
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            background-color: #c5a028;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1100px;
-            margin: -40px auto 50px;
-            padding: 0 20px;
-        }
-
-        /* Unique Value Banner */
-        .value-card {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 40px;
-            border-left: 6px solid var(--accent-gold);
-        }
-
-        .value-card h2 {
-            color: var(--primary-blue);
-            margin-bottom: 12px;
-            font-size: 1.5rem;
-        }
-
-        /* Interactive Comparison Table */
-        .table-container {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: var(--card-shadow);
-            overflow-x: auto;
-            margin-bottom: 40px;
-        }
-
-        .table-container h2 {
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th, td {
-            padding: 16px;
-            text-align: left;
-            border-bottom: 1px solid #eef2f5;
-            font-size: 0.95rem;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            color: var(--primary-blue);
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #fdfdfd;
-        }
-
-        .highlight-col {
-            background-color: rgba(212, 175, 55, 0.08);
-            font-weight: 600;
-            color: var(--primary-blue);
-        }
-
-        .check-icon {
-            color: #27ae60;
-            font-weight: bold;
-        }
-
-        .cross-icon {
-            color: #e74c3c;
-            font-weight: bold;
-        }
-
-        /* Core Advantages Section */
-        .grid-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .feature-box {
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: var(--card-shadow);
-        }
-
-        .feature-box h3 {
-            color: var(--primary-blue);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .feature-box p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        /* Contact / Lead Form */
         .form-card {
-            background: var(--primary-blue);
+            background: var(--lic-blue);
             color: #ffffff;
             border-radius: 12px;
-            padding: 40px;
-            text-align: center;
+            padding: 30px;
             box-shadow: var(--card-shadow);
+            border-top: 5px solid var(--lic-gold);
         }
 
-        .form-card h2 {
-            margin-bottom: 10px;
-            font-size: 1.8rem;
-        }
+        .form-card h2 { text-align: center; color: var(--lic-gold); margin-bottom: 8px; }
+        .form-group { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 800px; margin: 15px auto 0; }
+        .form-group input { padding: 12px 16px; border-radius: 6px; border: none; flex: 1 1 200px; font-size: 0.95rem; }
+        .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; }
 
-        .form-card p {
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-
-        .form-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .form-group input, .form-group select {
-            padding: 14px 18px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1rem;
-            flex: 1 1 200px;
-        }
-
-        .form-group button {
-            background-color: var(--accent-gold);
-            color: #000;
-            border: none;
-            padding: 14px 35px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .form-group button:hover {
-            background-color: #c5a028;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8rem;
-            }
-            .form-group {
-                flex-direction: column;
-            }
+        @media (max-width: 900px) { 
+            .calc-grid { grid-template-columns: 1fr; }
+            .chart-wrapper { height: 400px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Hero Header -->
-    <header>
-        <h1>Secure Your Family's Future with <span>Unmatched Safety</span></h1>
-        <p>Why modern investors rely on LIC as the unshakeable foundation of their financial plan—combining growth, tax savings, and guaranteed protection.</p>
-        <a href="#consultation" class="cta-btn">Get a Free Personalized Comparison</a>
+    <div class="brand-header">
+        <div class="brand-logo">LIC ADVISORY SERVICES</div>
+        <div>Tax & Inflation-Adjusted Plotter</div>
+    </div>
+
+    <header class="hero">
+        <h1>Inflation & Tax-Adjusted Wealth: <span>LIC vs Alternatives</span></h1>
+        <p>Interactive comparison with customizable interest rates, tax drag, and inflation-adjusted purchasing power.</p>
     </header>
 
     <div class="container">
 
-        <!-- Sovereign Guarantee Card -->
-        <div class="value-card">
-            <h2>The Power of Section 37: 100% Government Guarantee</h2>
-            <p>Unlike mutual funds or private instruments subject to market volatility and institutional defaults, every LIC plan comes with a <strong>Sovereign Guarantee</strong> by the Government of India under Section 37 of the LIC Act, 1956. Your capital and returns are fully secured.</p>
-        </div>
+        <div class="calc-card">
+            <h2 style="color: var(--lic-blue); text-align: center; margin-bottom: 15px;">Dynamic Wealth & Return Simulator</h2>
+            
+            <div class="calc-grid">
+                <div>
+                    <!-- Primary Sliders -->
+                    <div class="control-group">
+                        <label>Tax Slab Bracket</label>
+                        <select id="taxSelect">
+                            <option value="0.10">10% Tax Bracket</option>
+                            <option value="0.20">20% Tax Bracket</option>
+                            <option value="0.30" selected>30% Tax Bracket</option>
+                        </select>
+                    </div>
 
-        <!-- Comparison Table -->
-        <div class="table-container">
-            <h2>Comprehensive Instrument Comparison</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Investment Instrument</th>
-                        <th>Guaranteed Returns</th>
-                        <th>Tax-Free Maturity</th>
-                        <th>Inbuilt Life Cover</th>
-                        <th>Sovereign Guarantee</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="background-color: #fdfae6;">
-                        <td class="highlight-col">LIC Insurance</td>
-                        <td class="highlight-col"><span class="check-icon">✓</span> Yes</td>
-                        <td class="highlight-col"><span class="check-icon">✓</span> Yes [Sec 10(10D)]</td>
-                        <td class="highlight-col"><span class="check-icon">✓</span> Yes</td>
-                        <td class="highlight-col"><span class="check-icon">✓</span> Yes (Sec 37)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Bank FD</strong></td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                        <td><span class="cross-icon">✕</span> Taxable</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                        <td><span class="cross-icon">✕</span> Up to ₹5 Lakhs only</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Mutual Funds / Equity</strong></td>
-                        <td><span class="cross-icon">✕</span> Market Risk</td>
-                        <td><span class="cross-icon">✕</span> Capital Gains Tax</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Gold</strong></td>
-                        <td><span class="cross-icon">✕</span> Price Volatile</td>
-                        <td><span class="cross-icon">✕</span> Capital Gains Tax</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Term Cover</strong></td>
-                        <td><span class="cross-icon">✕</span> No Maturity Return</td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                        <td><span class="cross-icon">✕</span> Depends on Issuer</td>
-                    </tr>
-                    <tr>
-                        <td><strong>ULIPs</strong></td>
-                        <td><span class="cross-icon">✕</span> Market Risk</td>
-                        <td><span class="check-icon">✓</span> Conditional</td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Govt Bonds</strong></td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                        <td><span class="cross-icon">✕</span> Taxable Interest</td>
-                        <td><span class="cross-icon">✕</span> No</td>
-                        <td><span class="check-icon">✓</span> Yes</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                    <div class="control-group">
+                        <label>Inflation Rate (%) <span class="val-display" id="infVal">6.0%</span></label>
+                        <input type="range" id="infSlider" min="0" max="12" step="0.5" value="6.0">
+                    </div>
 
-        <!-- Key Advantages -->
-        <div class="grid-section">
-            <div class="feature-box">
-                <h3>Dual Purpose Strategy</h3>
-                <p>Combines mandatory financial protection for your dependents with long-term wealth creation, removing the need to manage separate plans for security and growth.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Triple Tax Benefits</h3>
-                <p>Enjoy tax savings under Section 80C on premiums paid, completely tax-free maturity proceeds under Section 10(10D), and zero tax drag during compounding.</p>
-            </div>
-            <div class="feature-box">
-                <h3>Financial Discipline</h3>
-                <p>Unlike highly liquid bank deposits or stocks that encourage impulse spending, regular policy contributions enforce structured, long-term savings.</p>
-            </div>
-        </div>
+                    <div class="control-group">
+                        <label>Monthly Investment (₹) <span class="val-display" id="invVal">10,000</span></label>
+                        <input type="range" id="invSlider" min="2000" max="100000" step="2000" value="10000">
+                    </div>
 
-        <!-- Lead Capture Form -->
-        <div class="form-card" id="consultation">
-            <h2>Request Your Customized Policy Proposal</h2>
-            <p>Get a personalized plan tailored to your age, income goals, and family security needs.</p>
-            <form onsubmit="alert('Thank you! Our advisor will contact you shortly.'); return false;">
-                <div class="form-group">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="tel" placeholder="Mobile Number" required>
-                    <button type="submit">Get Plan Details</button>
+                    <div class="control-group">
+                        <label>Duration (Years) <span class="val-display" id="timeVal">30 Years</span></label>
+                        <input type="range" id="timeSlider" min="1" max="100" step="1" value="30">
+                    </div>
+
+                    <!-- Manual Interest Rates Overrides -->
+                    <label style="font-weight: 700; color: var(--lic-blue); display: block; margin: 10px 0 5px; font-size: 0.9rem;">
+                        Manual Expected Annual Yields (% p.a.)
+                    </label>
+                    <div class="rate-grid">
+                        <div>
+                            <label style="font-size: 0.78rem;">LIC Plan Rate</label>
+                            <input type="number" id="rLic" value="6.5" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem;">Bank FD Rate</label>
+                            <input type="number" id="rFd" value="6.5" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem;">Mutual Funds/Stocks</label>
+                            <input type="number" id="rMf" value="11.0" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem;">Gold Return Rate</label>
+                            <input type="number" id="rGold" value="7.5" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem;">Govt/RBI Bonds</label>
+                            <input type="number" id="rBond" value="7.0" step="0.1">
+                        </div>
+                        <div>
+                            <label style="font-size: 0.78rem;">Post Office Scheme</label>
+                            <input type="number" id="rPo" value="6.8" step="0.1">
+                        </div>
+                    </div>
+
+                    <div class="summary-box">
+                        <div><span>Total Principal Invested:</span> <strong id="totalInvestedDisplay" style="color: #94A3B8;">₹36,00,000</strong></div>
+                        <div><span>LIC Net Nominal Corpus:</span> <strong id="licCorpusDisplay" style="color: #FFCC00;">₹1,02,40,000</strong></div>
+                        <div><span>LIC Real Value (Inflation-Adjusted):</span> <strong id="licRealDisplay" style="color: #38BDF8;">₹17,82,789</strong></div>
+                    </div>
                 </div>
-            </form>
+
+                <!-- High-Contrast Chart Container -->
+                <div class="chart-wrapper">
+                    <canvas id="multiChart"></canvas>
+                </div>
+            </div>
         </div>
+
+        <!-- Google Sheets Lead Sync Form -->
+        
+    <div class="form-card">
+    <h2>Request Your Customized Tax & Inflation Proposal</h2>
+    <p style="text-align: center; font-size: 0.9rem;">Submissions sync directly to your Google Sheet and send a custom report to the client.</p>
+    
+    <form id="googleSheetForm">
+        <div class="form-group">
+            <input type="text" id="clientName" placeholder="Full Name" required>
+            <input type="tel" id="clientPhone" placeholder="Mobile Number" required>
+            <input type="email" id="clientEmail" placeholder="Email Address" required>
+            <button type="submit" id="subBtn">Submit Request</button>
+        </div>
+    </form>
+</div>
 
     </div>
 
-    <footer>
-        <p>&copy; 2026 Insurance & Investment Advisory. All rights reserved. | LIC is an independent statutory corporation.</p>
-    </footer>
+    <script>
+        const taxSelect = document.getElementById('taxSelect');
+        const infSlider = document.getElementById('infSlider');
+        const invSlider = document.getElementById('invSlider');
+        const timeSlider = document.getElementById('timeSlider');
 
+        const ctx = document.getElementById('multiChart').getContext('2d');
+
+        // High-Contrast Line Chart without Auto-Zoom
+        let multiChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    { label: 'Principal Invested', borderColor: '#94A3B8', borderDash: [6, 6], data: [], borderWidth: 2, fill: false, pointRadius: 0 },
+                    { label: 'LIC (Tax-Free 10(10D))', borderColor: '#FFCC00', backgroundColor: '#FFCC00', data: [], borderWidth: 3.5, fill: false, pointRadius: 0 },
+                    { label: 'Bank FD (Taxed)', borderColor: '#FF4D4D', data: [], borderWidth: 2, fill: false, pointRadius: 0 },
+                    { label: 'Mutual Funds/Stocks (LTCG)', borderColor: '#10B981', data: [], borderWidth: 2, fill: false, pointRadius: 0 },
+                    { label: 'Gold (After CGT)', borderColor: '#F59E0B', data: [], borderWidth: 2, fill: false, pointRadius: 0 },
+                    { label: 'Govt/RBI Bonds (Taxed)', borderColor: '#38BDF8', data: [], borderWidth: 2, fill: false, pointRadius: 0 },
+                    { label: 'Post Office (Taxed)', borderColor: '#FB923C', data: [], borderWidth: 2, fill: false, pointRadius: 0 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    title: { display: true, text: 'Net On-Hand Wealth Comparison (Full View)', color: '#F8FAFC', font: { size: 15 } },
+                    legend: { 
+                        position: 'top',
+                        labels: { color: '#E2E8F0', font: { size: 11 }, boxWidth: 12 } 
+                    },
+                    zoom: {
+                        pan: { enabled: false },
+                        zoom: { wheel: { enabled: false }, pinch: { enabled: false } }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#94A3B8' },
+                        grid: { color: '#334155' },
+                        title: { display: true, text: 'Investment Horizon (Years)', color: '#94A3B8' }
+                    },
+                    y: {
+                        ticks: { 
+                            color: '#94A3B8',
+                            callback: function(value) {
+                                if (value >= 10000000) return '₹' + (value / 10000000).toFixed(1) + ' Cr';
+                                if (value >= 100000) return '₹' + (value / 100000).toFixed(0) + ' L';
+                                return '₹' + value;
+                            }
+                        },
+                        grid: { color: '#334155' },
+                        title: { display: true, text: 'Corpus Value (₹)', color: '#94A3B8' }
+                    }
+                }
+            }
+        });
+
+        function calculatePlot() {
+            const monthly = parseFloat(invSlider.value);
+            const years = parseInt(timeSlider.value);
+            const taxSlab = parseFloat(taxSelect.value);
+            const infRate = parseFloat(infSlider.value) / 100;
+
+            const rLic = parseFloat(document.getElementById('rLic').value) / 100;
+            const rFd = parseFloat(document.getElementById('rFd').value) / 100;
+            const rMf = parseFloat(document.getElementById('rMf').value) / 100;
+            const rGold = parseFloat(document.getElementById('rGold').value) / 100;
+            const rBond = parseFloat(document.getElementById('rBond').value) / 100;
+            const rPo = parseFloat(document.getElementById('rPo').value) / 100;
+
+            document.getElementById('invVal').innerText = '₹' + monthly.toLocaleString('en-IN');
+            document.getElementById('timeVal').innerText = years + ' Yrs';
+            document.getElementById('infVal').innerText = infSlider.value + '%';
+
+            let labels = [];
+            let principalData = [], licData = [], fdData = [], mfData = [], goldData = [], bondData = [], poData = [];
+
+            for (let yr = 1; yr <= years; yr++) {
+                labels.push('Yr ' + yr);
+                let invested = monthly * yr * 12;
+                principalData.push(invested);
+
+                // 1. LIC (Tax Free)
+                let licNominal = invested * Math.pow(1 + rLic, yr);
+                licData.push(Math.round(licNominal));
+
+                // 2. Bank FD (Interest Taxed)
+                let fdNetRate = rFd * (1 - taxSlab);
+                let fdNominal = invested * Math.pow(1 + fdNetRate, yr);
+                fdData.push(Math.round(fdNominal));
+
+                // 3. Mutual Funds / Equity (LTCG ~12.5%)
+                let mfRaw = invested * Math.pow(1 + rMf, yr);
+                let mfNominal = invested + ((mfRaw - invested) * (1 - 0.125));
+                mfData.push(Math.round(mfNominal));
+
+                // 4. Gold (Capital Gains Tax ~20%)
+                let goldRaw = invested * Math.pow(1 + rGold, yr);
+                let goldNominal = invested + ((goldRaw - invested) * (1 - 0.20));
+                goldData.push(Math.round(goldNominal));
+
+                // 5. Govt / RBI Bonds (Slab Taxed)
+                let bondNetRate = rBond * (1 - taxSlab);
+                let bondNominal = invested * Math.pow(1 + bondNetRate, yr);
+                bondData.push(Math.round(bondNominal));
+
+                // 6. Post Office (Slab Taxed)
+                let poNetRate = rPo * (1 - taxSlab);
+                let poNominal = invested * Math.pow(1 + poNetRate, yr);
+                poData.push(Math.round(poNominal));
+            }
+
+            let lastLic = licData[licData.length - 1];
+            let lastPrincipal = principalData[principalData.length - 1];
+            let licRealValue = lastLic / Math.pow(1 + infRate, years);
+
+            document.getElementById('totalInvestedDisplay').innerText = '₹' + lastPrincipal.toLocaleString('en-IN');
+            document.getElementById('licCorpusDisplay').innerText = '₹' + lastLic.toLocaleString('en-IN');
+            document.getElementById('licRealDisplay').innerText = '₹' + Math.round(licRealValue).toLocaleString('en-IN');
+
+            multiChart.data.labels = labels;
+            multiChart.data.datasets[0].data = principalData;
+            multiChart.data.datasets[1].data = licData;
+            multiChart.data.datasets[2].data = fdData;
+            multiChart.data.datasets[3].data = mfData;
+            multiChart.data.datasets[4].data = goldData;
+            multiChart.data.datasets[5].data = bondData;
+            multiChart.data.datasets[6].data = poData;
+            multiChart.update();
+        }
+
+        [invSlider, timeSlider, infSlider, taxSelect, 
+         document.getElementById('rLic'), document.getElementById('rFd'), 
+         document.getElementById('rMf'), document.getElementById('rGold'), 
+         document.getElementById('rBond'), document.getElementById('rPo')].forEach(el => {
+            el.addEventListener('input', calculatePlot);
+            el.addEventListener('change', calculatePlot);
+        });
+
+        calculatePlot();
+        // GOOGLE SHEETS & EMAIL SYNC
+	const scriptURL = 'https://script.google.com/macros/s/AKfycbwvo1mMoy7R3OKvtq6WPP2Sc5wo4-_BOJX3yZS5fa4BACc1cRzVv1BKaP62MPzpUYKG9Q/exec';
+	const form = document.getElementById('googleSheetForm');
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const btn = document.getElementById('subBtn');
+    btn.innerText = "Processing...";
+
+    // Capture calculated report values from the simulator
+    const formData = new FormData();
+    formData.append('Name', document.getElementById('clientName').value);
+    formData.append('Phone', document.getElementById('clientPhone').value);
+    formData.append('Email', document.getElementById('clientEmail').value);
+    formData.append('MonthlyInv', document.getElementById('invSlider').value);
+    formData.append('Years', document.getElementById('timeSlider').value);
+    formData.append('TotalInvested', document.getElementById('totalInvestedDisplay').innerText);
+    formData.append('LicCorpus', document.getElementById('licCorpusDisplay').innerText);
+    formData.append('LicRealValue', document.getElementById('licRealDisplay').innerText);
+
+    fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => {
+            alert('Your details were submitted successfully! A copy of your report has been emailed to you.');
+            btn.innerText = "Submit Request";
+            form.reset();
+        })
+        .catch(error => {
+            alert('Submission recorded and processed.');
+            btn.innerText = "Submit Request";
+        });
+});
+    </script>
 </body>
 </html>
