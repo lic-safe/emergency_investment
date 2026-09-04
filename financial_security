@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Security Comparison | LIC vs Other Investments</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #003366;
+            --accent-gold: #D4AF37;
+            --light-bg: #f8f9fa;
+            --text-dark: #2c3e50;
+            --text-muted: #6c757d;
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-blue), #001f3f);
+            color: #ffffff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        header h1 span {
+            color: var(--accent-gold);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: var(--accent-gold);
+            color: #000;
+            padding: 14px 32px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            background-color: #c5a028;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: -40px auto 50px;
+            padding: 0 20px;
+        }
+
+        /* Unique Value Banner */
+        .value-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 40px;
+            border-left: 6px solid var(--accent-gold);
+        }
+
+        .value-card h2 {
+            color: var(--primary-blue);
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+
+        /* Interactive Comparison Table */
+        .table-container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            overflow-x: auto;
+            margin-bottom: 40px;
+        }
+
+        .table-container h2 {
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #eef2f5;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background-color: #fdfdfd;
+        }
+
+        .highlight-col {
+            background-color: rgba(212, 175, 55, 0.08);
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .check-icon {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .cross-icon {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* Core Advantages Section */
+        .grid-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .feature-box {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .feature-box h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .feature-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Contact / Lead Form */
+        .form-card {
+            background: var(--primary-blue);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-card h2 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .form-card p {
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group input, .form-group select {
+            padding: 14px 18px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            flex: 1 1 200px;
+        }
+
+        .form-group button {
+            background-color: var(--accent-gold);
+            color: #000;
+            border: none;
+            padding: 14px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #c5a028;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .form-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Header -->
+    <header>
+        <h1>Secure Your Family's Future with <span>Unmatched Safety</span></h1>
+        <p>Why modern investors rely on LIC as the unshakeable foundation of their financial plan—combining growth, tax savings, and guaranteed protection.</p>
+        <a href="#consultation" class="cta-btn">Get a Free Personalized Comparison</a>
+    </header>
+
+    <div class="container">
+
+        <!-- Sovereign Guarantee Card -->
+        <div class="value-card">
+            <h2>The Power of Section 37: 100% Government Guarantee</h2>
+            <p>Unlike mutual funds or private instruments subject to market volatility and institutional defaults, every LIC plan comes with a <strong>Sovereign Guarantee</strong> by the Government of India under Section 37 of the LIC Act, 1956. Your capital and returns are fully secured.</p>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="table-container">
+            <h2>Comprehensive Instrument Comparison</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Investment Instrument</th>
+                        <th>Guaranteed Returns</th>
+                        <th>Tax-Free Maturity</th>
+                        <th>Inbuilt Life Cover</th>
+                        <th>Sovereign Guarantee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background-color: #fdfae6;">
+                        <td class="highlight-col">LIC Insurance</td>
+                        <td class="highlight-col"><span class="check-icon">✓</span> Yes</td>
+                        <td class="highlight-col"><span class="check-icon">✓</span> Yes [Sec 10(10D)]</td>
+                        <td class="highlight-col"><span class="check-icon">✓</span> Yes</td>
+                        <td class="highlight-col"><span class="check-icon">✓</span> Yes (Sec 37)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bank FD</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="cross-icon">✕</span> Taxable</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                        <td><span class="cross-icon">✕</span> Up to ₹5 Lakhs only</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mutual Funds / Equity</strong></td>
+                        <td><span class="cross-icon">✕</span> Market Risk</td>
+                        <td><span class="cross-icon">✕</span> Capital Gains Tax</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Gold</strong></td>
+                        <td><span class="cross-icon">✕</span> Price Volatile</td>
+                        <td><span class="cross-icon">✕</span> Capital Gains Tax</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Term Cover</strong></td>
+                        <td><span class="cross-icon">✕</span> No Maturity Return</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="cross-icon">✕</span> Depends on Issuer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ULIPs</strong></td>
+                        <td><span class="cross-icon">✕</span> Market Risk</td>
+                        <td><span class="check-icon">✓</span> Conditional</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Govt Bonds</strong></td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                        <td><span class="cross-icon">✕</span> Taxable Interest</td>
+                        <td><span class="cross-icon">✕</span> No</td>
+                        <td><span class="check-icon">✓</span> Yes</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Key Advantages -->
+        <div class="grid-section">
+            <div class="feature-box">
+                <h3>Dual Purpose Strategy</h3>
+                <p>Combines mandatory financial protection for your dependents with long-term wealth creation, removing the need to manage separate plans for security and growth.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Triple Tax Benefits</h3>
+                <p>Enjoy tax savings under Section 80C on premiums paid, completely tax-free maturity proceeds under Section 10(10D), and zero tax drag during compounding.</p>
+            </div>
+            <div class="feature-box">
+                <h3>Financial Discipline</h3>
+                <p>Unlike highly liquid bank deposits or stocks that encourage impulse spending, regular policy contributions enforce structured, long-term savings.</p>
+            </div>
+        </div>
+
+        <!-- Lead Capture Form -->
+        <div class="form-card" id="consultation">
+            <h2>Request Your Customized Policy Proposal</h2>
+            <p>Get a personalized plan tailored to your age, income goals, and family security needs.</p>
+            <form onsubmit="alert('Thank you! Our advisor will contact you shortly.'); return false;">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="tel" placeholder="Mobile Number" required>
+                    <button type="submit">Get Plan Details</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Insurance & Investment Advisory. All rights reserved. | LIC is an independent statutory corporation.</p>
+    </footer>
+
+</body>
+</html>
