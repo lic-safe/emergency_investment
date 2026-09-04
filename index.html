@@ -129,6 +129,50 @@
             width: 100%;
         }
 
+        /* Pitch Card Styling */
+        .pitch-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            border-left: 6px solid var(--lic-blue);
+        }
+
+        .pitch-card h2 {
+            color: var(--lic-blue);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-bottom: 15px;
+        }
+
+        .pitch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .pitch-item {
+            background: #F8FAFC;
+            padding: 14px 16px;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .pitch-item h3 {
+            color: var(--lic-blue);
+            font-size: 0.98rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pitch-item p {
+            font-size: 0.86rem;
+            color: #475569;
+            line-height: 1.5;
+        }
+
         /* Lead Form */
         .form-card {
             background: var(--lic-blue);
@@ -145,7 +189,177 @@
         .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; flex: 1 1 100%; min-height: 48px; font-size: 1rem; transition: opacity 0.2s; }
         .form-group button:hover { opacity: 0.9; }
 
-        /* Comprehensive Mobile & Responsive Adjustments */
+        /* LIC Mascot Floating Sprite Styles */
+        .ai-widget-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .ai-sprite-btn {
+            background: var(--lic-blue);
+            color: var(--lic-gold);
+            border: 3px solid var(--lic-gold);
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: mascotBounce 3s infinite ease-in-out;
+            padding: 8px;
+        }
+
+        .ai-sprite-btn:hover {
+            transform: scale(1.12);
+            background: #001A33;
+        }
+
+        .ai-sprite-btn svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes mascotBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-7px); }
+        }
+
+        .ai-chat-box {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            max-width: calc(100vw - 32px);
+            height: 460px;
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.25);
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid var(--lic-gold);
+        }
+
+        .ai-chat-header {
+            background: var(--lic-blue);
+            color: #ffffff;
+            padding: 12px 16px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--lic-gold);
+        }
+
+        .ai-chat-header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-chat-header .close-btn {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--lic-gold);
+            padding: 2px 6px;
+        }
+
+        .plan-chips {
+            display: flex;
+            gap: 6px;
+            padding: 8px 10px;
+            background: #F1F5F9;
+            overflow-x: auto;
+            border-bottom: 1px solid #E2E8F0;
+            white-space: nowrap;
+        }
+
+        .chip {
+            background: #ffffff;
+            color: var(--lic-blue);
+            border: 1px solid var(--lic-blue);
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip:hover, .chip.active {
+            background: var(--lic-blue);
+            color: var(--lic-gold);
+        }
+
+        .ai-chat-messages {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            background: #F8FAFC;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-msg {
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 88%;
+            word-wrap: break-word;
+            line-height: 1.45;
+        }
+
+        .chat-msg.agent {
+            background: #FFFFFF;
+            color: var(--text-dark);
+            align-self: flex-start;
+            border: 1px solid #E2E8F0;
+            border-left: 4px solid var(--lic-gold);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+
+        .chat-msg.user {
+            background: var(--lic-blue);
+            color: #ffffff;
+            align-self: flex-end;
+        }
+
+        .chat-msg strong {
+            color: var(--lic-blue);
+        }
+
+        .ai-chat-input-area {
+            display: flex;
+            border-top: 1px solid #E2E8F0;
+            background: #ffffff;
+        }
+
+        .ai-chat-input-area input {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            outline: none;
+            font-size: 0.85rem;
+        }
+
+        .ai-chat-input-area button {
+            background: var(--lic-blue);
+            color: var(--lic-gold);
+            border: none;
+            padding: 12px 18px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.88rem;
+        }
+
+        /* Mobile & Responsive Adjustments */
         @media (max-width: 900px) { 
             .calc-grid { grid-template-columns: 1fr; }
             .chart-wrapper { height: 350px; min-height: unset; }
@@ -154,7 +368,7 @@
         @media (max-width: 600px) {
             .brand-header { flex-direction: column; text-align: center; justify-content: center; }
             .container { padding: 0 8px; margin-top: 10px; }
-            .calc-card, .form-card { padding: 14px; }
+            .calc-card, .pitch-card, .form-card { padding: 14px; }
             .rate-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
             
             .summary-box div {
@@ -165,6 +379,9 @@
             }
             .summary-box div:last-child { border-bottom: none; padding-bottom: 0; }
             .summary-box div strong { align-self: flex-end; font-size: 1rem; }
+            
+            .ai-widget-container { bottom: 15px; right: 15px; }
+            .ai-chat-box { width: calc(100vw - 30px); height: 420px; bottom: 75px; }
         }
     </style>
 </head>
@@ -257,6 +474,29 @@
             </div>
         </div>
 
+        <!-- Strategic Edge: Why LIC Stands Out -->
+        <div class="pitch-card">
+            <h2>Why LIC Insurance Surpasses Traditional Financial Instruments</h2>
+            <div class="pitch-grid">
+                <div class="pitch-item">
+                    <h3>🛡️ Sovereign Guarantee</h3>
+                    <p>Unlike commercial bank FDs or mutual funds, LIC policies carry an absolute Sovereign Guarantee under Section 37 of the LIC Act, 1956. The Government of India guarantees both the capital and declared bonuses.</p>
+                </div>
+                <div class="pitch-item">
+                    <h3>💰 Tax-Free Growth & Payouts</h3>
+                    <p>While Bank FDs, Debt Funds, and Equities face tax drag (TDS, LTCG, or slab rate taxation), LIC maturity and death proceeds remain fully tax-exempt under Section 10(10D).</p>
+                </div>
+                <div class="pitch-item">
+                    <h3>☂️ Unmatched Risk Cover & Dual Benefit</h3>
+                    <p>Other investment options only grow your savings. LIC combines guaranteed wealth accumulation with substantial life risk coverage, ensuring your family's future stays secured regardless of life's uncertainties.</p>
+                </div>
+                <div class="pitch-item">
+                    <h3>📉 Volatility-Proof Stability</h3>
+                    <p>Stock market instruments fluctuate during downturns. LIC guarantees compounding returns via annually declared simple and final additional bonuses, eliminating market risk from your long-term goals.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Google Sheets Lead Sync Form -->
         <div class="form-card">
             <h2>Request Your Customized Tax & Inflation Proposal</h2>
@@ -272,6 +512,55 @@
             </form>
         </div>
 
+    </div>
+
+    <!-- Official LIC Mascot Floating Sprite Widget -->
+    <div class="ai-widget-container">
+        <button class="ai-sprite-btn" id="aiSpriteBtn" onclick="toggleLicAiChat()" title="Talk to LIC Mascot Advisor">
+            <!-- Official LIC Mascot SVG (Yogakshemam Emblem hands and lamp) -->
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50" cy="50" r="48" fill="#002B49"/>
+                <path d="M50 18 C50 18 36 34 36 46 C36 54 42 60 50 60 C58 60 64 54 64 46 C64 34 50 18 50 18 Z" fill="#FFCC00"/>
+                <path d="M50 26 C50 26 41 38 41 46 C41 51 45 55 50 55 C55 55 59 51 59 46 C59 38 50 26 50 26 Z" fill="#FF9900"/>
+                <path d="M22 62 C22 62 34 58 46 66 C48 67 52 67 54 66 C66 58 78 62 78 62 C78 62 66 76 50 76 C34 76 22 62 22 62 Z" fill="#FFCC00"/>
+                <path d="M28 78 C34 82 42 85 50 85 C58 85 66 82 72 78 C65 82 58 83 50 83 C42 83 35 82 28 78 Z" fill="#FFFFFF"/>
+            </svg>
+        </button>
+
+        <div class="ai-chat-box" id="aiChatBox">
+            <div class="ai-chat-header">
+                <div class="ai-chat-header-title">
+                    <div style="width: 24px; height: 24px;">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="48" fill="#FFCC00"/>
+                            <path d="M50 18 C50 18 36 34 36 46 C36 54 42 60 50 60 C58 60 64 54 64 46 C64 34 50 18 50 18 Z" fill="#002B49"/>
+                            <path d="M22 62 C22 62 34 58 46 66 C48 67 52 67 54 66 C66 58 78 62 78 62 C78 62 66 76 50 76 C34 76 22 62 22 62 Z" fill="#002B49"/>
+                        </svg>
+                    </div>
+                    <span>LIC Mascot Policy Advisor</span>
+                </div>
+                <span class="close-btn" onclick="toggleLicAiChat()">✕</span>
+            </div>
+
+            <div class="plan-chips">
+                <button class="chip" onclick="askPlan('Jeevan Umang')">Jeevan Umang</button>
+                <button class="chip" onclick="askPlan('Jeevan Labh')">Jeevan Labh</button>
+                <button class="chip" onclick="askPlan('SIIP / ULIP')">LIC SIIP (ULIP)</button>
+                <button class="chip" onclick="askPlan('Jeevan Shanti')">Jeevan Shanti</button>
+            </div>
+
+            <div class="ai-chat-messages" id="aiChatMessages">
+                <div class="chat-msg agent">
+                    <strong>Namaste! 🙏</strong><br>
+                    I am your official LIC Mascot. Tap any plan above or ask me how LIC outperforms other instruments based on your current simulator settings!
+                </div>
+            </div>
+
+            <div class="ai-chat-input-area">
+                <input type="text" id="aiChatInput" placeholder="Ask about LIC plans & benefits..." onkeypress="handleAiKeyPress(event)">
+                <button onclick="sendLicAiMessage()">Send</button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -448,6 +737,77 @@
                     btn.innerText = "Submit Request";
                 });
         });
+
+        // LIC MASCOT AGENT FUNCTIONS
+        function toggleLicAiChat() {
+            const chatBox = document.getElementById('aiChatBox');
+            chatBox.style.display = (chatBox.style.display === 'none' || chatBox.style.display === '') ? 'flex' : 'none';
+        }
+
+        function handleAiKeyPress(e) {
+            if (e.key === 'Enter') sendLicAiMessage();
+        }
+
+        function askPlan(planName) {
+            const input = document.getElementById('aiChatInput');
+            input.value = "Tell me about " + planName;
+            sendLicAiMessage();
+        }
+
+        function sendLicAiMessage() {
+            const input = document.getElementById('aiChatInput');
+            const chatArea = document.getElementById('aiChatMessages');
+            const query = input.value.trim();
+
+            if (!query) return;
+
+            // Render User Message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-msg user';
+            userMsg.innerText = query;
+            chatArea.appendChild(userMsg);
+
+            input.value = '';
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            // Generate Dynamic Mascot Pitch Response based on live simulator values
+            setTimeout(() => {
+                const agentMsg = document.createElement('div');
+                agentMsg.className = 'chat-msg agent';
+                agentMsg.innerHTML = generateMascotResponse(query);
+                chatArea.appendChild(agentMsg);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 500);
+        }
+
+        function generateMascotResponse(query) {
+            const q = query.toLowerCase();
+            const inv = document.getElementById('invVal').innerText;
+            const years = document.getElementById('timeVal').innerText;
+            const corpus = document.getElementById('licCorpusDisplay').innerText;
+            const taxBracket = (parseFloat(taxSelect.value) * 100) + '%';
+
+            if (q.includes('umang')) {
+                return `<strong>LIC Jeevan Umang Strategy:</strong><br>
+                For your monthly investment of <strong>${inv}</strong> over <strong>${years}</strong>, Jeevan Umang provides 8% annual guaranteed survival payouts for life after maturity, plus a tax-free corpus of <strong>${corpus}</strong> under Sec 10(10D). Unlike FDs taxed at your <strong>${taxBracket}</strong> slab, this income is 100% tax-free!`;
+            } else if (q.includes('labh')) {
+                return `<strong>LIC Jeevan Labh (Limited Premium):</strong><br>
+                Pay for a shorter period while securing full <strong>${years}</strong> compounding growth. You build an estimated <strong>${corpus}</strong> guaranteed corpus under Government Sovereign Sec 37 backing, completely insulated from market crashes!`;
+            } else if (q.includes('siip') || q.includes('ulip')) {
+                return `<strong>LIC SIIP (Equity-Linked Plan):</strong><br>
+                Want higher market returns like Mutual Funds? LIC SIIP offers low fund management charges, free fund switching, zero switching tax, and built-in life cover that standard Mutual Funds never offer!`;
+            } else if (q.includes('shanti') || q.includes('pension') || q.includes('annuity')) {
+                return `<strong>LIC Jeevan Shanti (Guaranteed Pension):</strong><br>
+                Lock in lifelong guaranteed pension rates today. Perfect for protecting your future purchasing power against declining bank FD interest rates over the next 20–30 years.`;
+            } else if (q.includes('tax') || q.includes('10(10d)')) {
+                return `<strong>Tax Supremacy Pitch:</strong><br>
+                At your <strong>${taxBracket}</strong> tax bracket, Bank FD returns drop drastically due to annual TDS. LIC proceeds of <strong>${corpus}</strong> are completely exempt under Section 10(10D) and qualify for Section 80C deductions!`;
+            } else {
+                return `<strong>Customized Simulator Insights:</strong><br>
+                Investing <strong>${inv}/month</strong> for <strong>${years}</strong> yields an estimated <strong>${corpus}</strong> LIC corpus.<br><br>
+                Unlike Bank FDs (taxed at ${taxBracket}) or Mutual Funds (LTCG drag), LIC provides **100% tax-free payouts**, **Government Sovereign Safety**, and **Inbuilt Family Risk Cover**.`;
+            }
+        }
     </script>
 </body>
 </html>
