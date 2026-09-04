@@ -17,54 +17,71 @@
             --lic-gold: #FFCC00;
             --light-bg: #F0F4F8;
             --text-dark: #101820;
-            --card-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            --card-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-dark); line-height: 1.5; }
+        body { background-color: var(--light-bg); color: var(--text-dark); line-height: 1.5; padding-bottom: 30px; }
 
+        /* Brand Header */
         .brand-header {
             background-color: var(--lic-blue);
             color: #FFFFFF;
-            padding: 15px 5%;
+            padding: 12px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 4px solid var(--lic-gold);
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .brand-logo { font-size: 1.4rem; font-weight: 700; color: var(--lic-gold); }
+        .brand-logo { font-size: 1.2rem; font-weight: 700; color: var(--lic-gold); letter-spacing: 0.5px; }
 
+        /* Hero Header */
         header.hero {
             background: linear-gradient(135deg, #001A33, var(--lic-blue));
             color: #ffffff;
-            padding: 35px 20px;
+            padding: 24px 16px 36px;
             text-align: center;
         }
 
+        header.hero h1 { font-size: clamp(1.25rem, 4vw, 1.8rem); line-height: 1.3; }
         header.hero h1 span { color: var(--lic-gold); }
+        header.hero p { font-size: clamp(0.82rem, 2.5vw, 0.95rem); margin-top: 6px; opacity: 0.9; }
 
-        .container { max-width: 1300px; margin: -20px auto 50px; padding: 0 20px; }
+        /* Main Container */
+        .container { max-width: 1300px; margin: -20px auto 0; padding: 0 12px; }
 
+        /* Cards */
         .calc-card {
             background: #ffffff;
             border-radius: 12px;
-            padding: 25px;
+            padding: 20px;
             box-shadow: var(--card-shadow);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
-        .calc-grid { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 25px; }
+        .calc-grid { display: grid; grid-template-columns: 1.1fr 1.9fr; gap: 20px; }
 
-        .control-group { margin-bottom: 12px; }
-        .control-group label { display: block; font-weight: 600; margin-bottom: 4px; color: var(--lic-blue); font-size: 0.88rem; }
-        .control-group input[type="range"], .control-group select, .control-group input[type="number"] {
-            width: 100%; accent-color: var(--lic-blue); padding: 6px 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 0.9rem;
+        /* Control Inputs & Sliders */
+        .control-group { margin-bottom: 16px; }
+        .control-group label { display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 6px; color: var(--lic-blue); font-size: 0.88rem; }
+        .control-group input[type="range"] {
+            width: 100%; accent-color: var(--lic-blue); height: 6px; border-radius: 3px; cursor: pointer;
         }
-        .control-group .val-display { font-weight: 700; color: #D4AF37; float: right; }
+        .control-group select {
+            width: 100%;
+            accent-color: var(--lic-blue);
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #CBD5E1;
+            font-size: 0.9rem;
+            background: #FFFFFF;
+        }
+        .control-group .val-display { font-weight: 700; color: #D4AF37; }
 
+        /* Manual Interest Rate Grid */
         .rate-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -76,52 +93,78 @@
             margin-bottom: 15px;
         }
 
+        .rate-grid > div { display: flex; flex-direction: column; gap: 4px; }
+        .rate-grid label { font-size: 0.78rem; font-weight: 600; color: var(--lic-blue); }
+        .rate-grid input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #CBD5E1;
+            font-size: 0.88rem;
+            background: #FFFFFF;
+        }
+
+        /* Results Summary Box */
         .summary-box {
             background: #002B49;
             color: #ffffff;
-            padding: 15px;
+            padding: 16px;
             border-radius: 8px;
             border-left: 5px solid var(--lic-gold);
             margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .summary-box div { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; flex-wrap: wrap; gap: 4px; }
+        .summary-box div { display: flex; justify-content: space-between; align-items: center; font-size: 0.88rem; flex-wrap: wrap; gap: 4px; }
 
+        /* Chart Section */
         .chart-wrapper {
             position: relative;
             background: #0F172A;
             border-radius: 10px;
-            padding: 15px;
-            min-height: 400px;
-            height: 100%;
+            padding: 12px;
+            min-height: 380px;
+            width: 100%;
         }
 
+        /* Lead Form */
         .form-card {
             background: var(--lic-blue);
             color: #ffffff;
             border-radius: 12px;
-            padding: 30px;
+            padding: 24px 16px;
             box-shadow: var(--card-shadow);
             border-top: 5px solid var(--lic-gold);
         }
 
-        .form-card h2 { text-align: center; color: var(--lic-gold); margin-bottom: 8px; }
-        .form-group { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 800px; margin: 15px auto 0; }
-        .form-group input { padding: 12px 16px; border-radius: 6px; border: none; flex: 1 1 200px; width: 100%; font-size: 0.95rem; }
-        .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; flex: 1 1 auto; min-height: 48px; }
+        .form-card h2 { text-align: center; color: var(--lic-gold); margin-bottom: 6px; font-size: clamp(1.1rem, 3vw, 1.4rem); }
+        .form-group { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 800px; margin: 15px auto 0; }
+        .form-group input { padding: 12px 14px; border-radius: 6px; border: none; flex: 1 1 220px; width: 100%; font-size: 0.95rem; }
+        .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; cursor: pointer; flex: 1 1 100%; min-height: 48px; font-size: 1rem; transition: opacity 0.2s; }
+        .form-group button:hover { opacity: 0.9; }
 
-        /* Responsive Breakpoints */
+        /* Comprehensive Mobile & Responsive Adjustments */
         @media (max-width: 900px) { 
             .calc-grid { grid-template-columns: 1fr; }
-            .chart-wrapper { height: 400px; }
+            .chart-wrapper { height: 350px; min-height: unset; }
         }
 
         @media (max-width: 600px) {
-            .brand-header { flex-direction: column; text-align: center; }
-            .container { padding: 0 10px; margin-top: 10px; }
-            .calc-card, .form-card { padding: 15px; }
-            .rate-grid { grid-template-columns: 1fr 1fr; }
-            .form-group button { width: 100%; }
+            .brand-header { flex-direction: column; text-align: center; justify-content: center; }
+            .container { padding: 0 8px; margin-top: 10px; }
+            .calc-card, .form-card { padding: 14px; }
+            .rate-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            
+            .summary-box div {
+                flex-direction: column;
+                align-items: flex-start;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding-bottom: 6px;
+            }
+            .summary-box div:last-child { border-bottom: none; padding-bottom: 0; }
+            .summary-box div strong { align-self: flex-end; font-size: 1rem; }
         }
     </style>
 </head>
@@ -140,13 +183,13 @@
     <div class="container">
 
         <div class="calc-card">
-            <h2 style="color: var(--lic-blue); text-align: center; margin-bottom: 15px;">Dynamic Wealth & Return Simulator</h2>
+            <h2 style="color: var(--lic-blue); text-align: center; margin-bottom: 15px; font-size: clamp(1.1rem, 3vw, 1.35rem);">Dynamic Wealth & Return Simulator</h2>
             
             <div class="calc-grid">
                 <div>
                     <!-- Primary Sliders -->
                     <div class="control-group">
-                        <label>Tax Slab Bracket</label>
+                        <label for="taxSelect">Tax Slab Bracket</label>
                         <select id="taxSelect">
                             <option value="0.10">10% Tax Bracket</option>
                             <option value="0.20">20% Tax Bracket</option>
@@ -155,47 +198,47 @@
                     </div>
 
                     <div class="control-group">
-                        <label>Inflation Rate (%) <span class="val-display" id="infVal">6.0%</span></label>
+                        <label for="infSlider">Inflation Rate (%) <span class="val-display" id="infVal">6.0%</span></label>
                         <input type="range" id="infSlider" min="0" max="12" step="0.5" value="6.0">
                     </div>
 
                     <div class="control-group">
-                        <label>Monthly Investment (₹) <span class="val-display" id="invVal">10,000</span></label>
+                        <label for="invSlider">Monthly Investment (₹) <span class="val-display" id="invVal">10,000</span></label>
                         <input type="range" id="invSlider" min="2000" max="100000" step="2000" value="10000">
                     </div>
 
                     <div class="control-group">
-                        <label>Duration (Years) <span class="val-display" id="timeVal">30 Years</span></label>
+                        <label for="timeSlider">Duration (Years) <span class="val-display" id="timeVal">30 Years</span></label>
                         <input type="range" id="timeSlider" min="1" max="100" step="1" value="30">
                     </div>
 
                     <!-- Manual Interest Rates Overrides -->
-                    <label style="font-weight: 700; color: var(--lic-blue); display: block; margin: 10px 0 5px; font-size: 0.9rem;">
+                    <label style="font-weight: 700; color: var(--lic-blue); display: block; margin: 12px 0 6px; font-size: 0.88rem;">
                         Manual Expected Annual Yields (% p.a.)
                     </label>
                     <div class="rate-grid">
                         <div>
-                            <label style="font-size: 0.78rem;">LIC Plan Rate</label>
+                            <label for="rLic">LIC Plan Rate</label>
                             <input type="number" id="rLic" value="6.5" step="0.1">
                         </div>
                         <div>
-                            <label style="font-size: 0.78rem;">Bank FD Rate</label>
+                            <label for="rFd">Bank FD Rate</label>
                             <input type="number" id="rFd" value="6.5" step="0.1">
                         </div>
                         <div>
-                            <label style="font-size: 0.78rem;">Mutual Funds/Stocks</label>
+                            <label for="rMf">Mutual Funds/Stocks</label>
                             <input type="number" id="rMf" value="11.0" step="0.1">
                         </div>
                         <div>
-                            <label style="font-size: 0.78rem;">Gold Return Rate</label>
+                            <label for="rGold">Gold Return Rate</label>
                             <input type="number" id="rGold" value="7.5" step="0.1">
                         </div>
                         <div>
-                            <label style="font-size: 0.78rem;">Govt/RBI Bonds</label>
+                            <label for="rBond">Govt/RBI Bonds</label>
                             <input type="number" id="rBond" value="7.0" step="0.1">
                         </div>
                         <div>
-                            <label style="font-size: 0.78rem;">Post Office Scheme</label>
+                            <label for="rPo">Post Office Scheme</label>
                             <input type="number" id="rPo" value="6.8" step="0.1">
                         </div>
                     </div>
@@ -217,7 +260,7 @@
         <!-- Google Sheets Lead Sync Form -->
         <div class="form-card">
             <h2>Request Your Customized Tax & Inflation Proposal</h2>
-            <p style="text-align: center; font-size: 0.9rem;">Submissions sync directly to your Google Sheet and send a custom report to the client.</p>
+            <p style="text-align: center; font-size: 0.85rem; opacity: 0.9;"></p>
             
             <form id="googleSheetForm">
                 <div class="form-group">
@@ -259,7 +302,7 @@
                 maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
                 plugins: {
-                    title: { display: true, text: 'Net On-Hand Wealth Comparison (Full View)', color: '#F8FAFC', font: { size: 15 } },
+                    title: { display: true, text: 'Net On-Hand Wealth Comparison (Full View)', color: '#F8FAFC', font: { size: 14 } },
                     legend: { 
                         position: 'top',
                         labels: { color: '#E2E8F0', font: { size: 11 }, boxWidth: 12 } 
