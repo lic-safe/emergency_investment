@@ -31,6 +31,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 4px solid var(--lic-gold);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .brand-logo { font-size: 1.4rem; font-weight: 700; color: var(--lic-gold); }
@@ -65,7 +67,7 @@
 
         .rate-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 10px;
             background: #F8FAFC;
             padding: 12px;
@@ -83,14 +85,15 @@
             margin-top: 15px;
         }
 
-        .summary-box div { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; }
+        .summary-box div { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; flex-wrap: wrap; gap: 4px; }
 
         .chart-wrapper {
             position: relative;
             background: #0F172A;
             border-radius: 10px;
             padding: 15px;
-            height: 520px; /* Fixed height ensures full visibility */
+            min-height: 400px;
+            height: 100%;
         }
 
         .form-card {
@@ -104,12 +107,21 @@
 
         .form-card h2 { text-align: center; color: var(--lic-gold); margin-bottom: 8px; }
         .form-group { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 800px; margin: 15px auto 0; }
-        .form-group input { padding: 12px 16px; border-radius: 6px; border: none; flex: 1 1 200px; font-size: 0.95rem; }
-        .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; }
+        .form-group input { padding: 12px 16px; border-radius: 6px; border: none; flex: 1 1 200px; width: 100%; font-size: 0.95rem; }
+        .form-group button { background-color: var(--lic-gold); color: var(--lic-blue); border: none; padding: 12px 30px; border-radius: 6px; font-weight: 700; cursor: pointer; flex: 1 1 auto; min-height: 48px; }
 
+        /* Responsive Breakpoints */
         @media (max-width: 900px) { 
             .calc-grid { grid-template-columns: 1fr; }
             .chart-wrapper { height: 400px; }
+        }
+
+        @media (max-width: 600px) {
+            .brand-header { flex-direction: column; text-align: center; }
+            .container { padding: 0 10px; margin-top: 10px; }
+            .calc-card, .form-card { padding: 15px; }
+            .rate-grid { grid-template-columns: 1fr 1fr; }
+            .form-group button { width: 100%; }
         }
     </style>
 </head>
@@ -203,20 +215,19 @@
         </div>
 
         <!-- Google Sheets Lead Sync Form -->
-        
-    <div class="form-card">
-    <h2>Request Your Customized Tax & Inflation Proposal</h2>
-    <p style="text-align: center; font-size: 0.9rem;">Submissions sync directly to your Google Sheet and send a custom report to the client.</p>
-    
-    <form id="googleSheetForm">
-        <div class="form-group">
-            <input type="text" id="clientName" placeholder="Full Name" required>
-            <input type="tel" id="clientPhone" placeholder="Mobile Number" required>
-            <input type="email" id="clientEmail" placeholder="Email Address" required>
-            <button type="submit" id="subBtn">Submit Request</button>
+        <div class="form-card">
+            <h2>Request Your Customized Tax & Inflation Proposal</h2>
+            <p style="text-align: center; font-size: 0.9rem;">Submissions sync directly to your Google Sheet and send a custom report to the client.</p>
+            
+            <form id="googleSheetForm">
+                <div class="form-group">
+                    <input type="text" id="clientName" placeholder="Full Name" required>
+                    <input type="tel" id="clientPhone" placeholder="Mobile Number" required>
+                    <input type="email" id="clientEmail" placeholder="Email Address" required>
+                    <button type="submit" id="subBtn">Submit Request</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
 
     </div>
 
@@ -363,37 +374,37 @@
         });
 
         calculatePlot();
+
         // GOOGLE SHEETS & EMAIL SYNC
-	const scriptURL = 'https://script.google.com/macros/s/AKfycbwvo1mMoy7R3OKvtq6WPP2Sc5wo4-_BOJX3yZS5fa4BACc1cRzVv1BKaP62MPzpUYKG9Q/exec';
-	const form = document.getElementById('googleSheetForm');
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwvo1mMoy7R3OKvtq6WPP2Sc5wo4-_BOJX3yZS5fa4BACc1cRzVv1BKaP62MPzpUYKG9Q/exec';
+        const form = document.getElementById('googleSheetForm');
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    const btn = document.getElementById('subBtn');
-    btn.innerText = "Processing...";
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const btn = document.getElementById('subBtn');
+            btn.innerText = "Processing...";
 
-    // Capture calculated report values from the simulator
-    const formData = new FormData();
-    formData.append('Name', document.getElementById('clientName').value);
-    formData.append('Phone', document.getElementById('clientPhone').value);
-    formData.append('Email', document.getElementById('clientEmail').value);
-    formData.append('MonthlyInv', document.getElementById('invSlider').value);
-    formData.append('Years', document.getElementById('timeSlider').value);
-    formData.append('TotalInvested', document.getElementById('totalInvestedDisplay').innerText);
-    formData.append('LicCorpus', document.getElementById('licCorpusDisplay').innerText);
-    formData.append('LicRealValue', document.getElementById('licRealDisplay').innerText);
+            const formData = new FormData();
+            formData.append('Name', document.getElementById('clientName').value);
+            formData.append('Phone', document.getElementById('clientPhone').value);
+            formData.append('Email', document.getElementById('clientEmail').value);
+            formData.append('MonthlyInv', document.getElementById('invSlider').value);
+            formData.append('Years', document.getElementById('timeSlider').value);
+            formData.append('TotalInvested', document.getElementById('totalInvestedDisplay').innerText);
+            formData.append('LicCorpus', document.getElementById('licCorpusDisplay').innerText);
+            formData.append('LicRealValue', document.getElementById('licRealDisplay').innerText);
 
-    fetch(scriptURL, { method: 'POST', body: formData })
-        .then(response => {
-            alert('Your details were submitted successfully! A copy of your report has been emailed to you.');
-            btn.innerText = "Submit Request";
-            form.reset();
-        })
-        .catch(error => {
-            alert('Submission recorded and processed.');
-            btn.innerText = "Submit Request";
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    alert('Your details were submitted successfully! A copy of your report has been emailed to you.');
+                    btn.innerText = "Submit Request";
+                    form.reset();
+                })
+                .catch(error => {
+                    alert('Submission recorded and processed.');
+                    btn.innerText = "Submit Request";
+                });
         });
-});
     </script>
 </body>
 </html>
