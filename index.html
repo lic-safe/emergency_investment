@@ -11,6 +11,18 @@
     <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1"></script>
 
+    <!-- html2pdf for generating PDF directly from HTML elements -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!-- EmailJS SDK for sending emails with attachments from JavaScript -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+       (function(){
+          // Initialize EmailJS with your Public Key
+          emailjs.init("3twxGcGEuNVvylc6N");
+       })();
+    </script>
+
     <style>
         :root {
             --lic-blue: #002B49;
@@ -397,7 +409,7 @@
         <p>Interactive comparison with customizable interest rates, tax drag, and inflation-adjusted purchasing power.</p>
     </header>
 
-    <div class="container">
+    <div class="container" id="reportContainer">
 
         <div class="calc-card">
             <h2 style="color: var(--lic-blue); text-align: center; margin-bottom: 15px; font-size: clamp(1.1rem, 3vw, 1.35rem);">Dynamic Wealth & Return Simulator</h2>
@@ -517,7 +529,7 @@
     <!-- Official LIC Mascot Floating Sprite Widget -->
     <div class="ai-widget-container">
         <button class="ai-sprite-btn" id="aiSpriteBtn" onclick="toggleLicAiChat()" title="Talk to LIC Mascot Advisor">
-            <!-- Official LIC Mascot SVG (Yogakshemam Emblem hands and lamp) -->
+            <!-- Official LIC Mascot SVG -->
             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="50" cy="50" r="48" fill="#002B49"/>
                 <path d="M50 18 C50 18 36 34 36 46 C36 54 42 60 50 60 C58 60 64 54 64 46 C64 34 50 18 50 18 Z" fill="#FFCC00"/>
@@ -707,35 +719,88 @@
 
         calculatePlot();
 
-        // GOOGLE SHEETS & EMAIL SYNC
+        // UPDATED GOOGLE SHEETS, PDF GENERATION & EMAIL/SMS DISPATCH
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwvo1mMoy7R3OKvtq6WPP2Sc5wo4-_BOJX3yZS5fa4BACc1cRzVv1BKaP62MPzpUYKG9Q/exec';
         const form = document.getElementById('googleSheetForm');
 
-        form.addEventListener('submit', e => {
+        form.addEventListener('submit', async e => {
             e.preventDefault();
             const btn = document.getElementById('subBtn');
-            btn.innerText = "Processing...";
+            btn.innerText = "Thanks for response, we will contact you...";
 
+            const name = document.getElementById('clientName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const clientEmail = document.getElementById('clientEmail').value;
+            const adminEmail = "your-admin-email@gmail.com"; // Replace with your receiving Admin Email
+
+            const monthlyInv = document.getElementById('invSlider').value;
+            const years = document.getElementById('timeSlider').value;
+            const totalInvested = document.getElementById('totalInvestedDisplay').innerText;
+            const licCorpus = document.getElementById('licCorpusDisplay').innerText;
+            const licRealValue = document.getElementById('licRealDisplay').innerText;
+
+            // Build Plain Text Report
+            const plainTextReport = `
+LIC ADVISORY SERVICES - CUSTOM PROPOSAL REPORT
+----------------------------------------------
+Client Name: ${name}
+Contact Number: ${phone}
+Contact Email: ${clientEmail}
+
+INVESTMENT SUMMARY:
+- Monthly Investment: ₹${monthlyInv}
+- Horizon Duration: ${years} Years
+- Total Principal Invested: ${totalInvested}
+- LIC Net Nominal Corpus: ${licCorpus}
+- LIC Real Value (Inflation-Adjusted): ${licRealValue}
+
+KEY LIC BENEFITS:
+1. Sovereign Guarantee under Sec 37 LIC Act 1956.
+2. Tax-Free payouts under Sec 10(10D).
+3. Inbuilt life cover and market volatility protection.
+----------------------------------------------
+Thank you for consulting LIC Advisory Services.
+            `;
+
+            // 1. Save data to Google Sheets
             const formData = new FormData();
-            formData.append('Name', document.getElementById('clientName').value);
-            formData.append('Phone', document.getElementById('clientPhone').value);
-            formData.append('Email', document.getElementById('clientEmail').value);
-            formData.append('MonthlyInv', document.getElementById('invSlider').value);
-            formData.append('Years', document.getElementById('timeSlider').value);
-            formData.append('TotalInvested', document.getElementById('totalInvestedDisplay').innerText);
-            formData.append('LicCorpus', document.getElementById('licCorpusDisplay').innerText);
-            formData.append('LicRealValue', document.getElementById('licRealDisplay').innerText);
+            formData.append('Name', name);
+            formData.append('Phone', phone);
+            formData.append('Email', clientEmail);
+            formData.append('MonthlyInv', monthlyInv);
+            formData.append('Years', years);
+            formData.append('TotalInvested', totalInvested);
+            formData.append('LicCorpus', licCorpus);
+            formData.append('LicRealValue', licRealValue);
+            fetch(scriptURL, { method: 'POST', body: formData }).catch(err => console.error(err));
 
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    alert('Your details were submitted successfully! A copy of your report has been emailed to you.');
-                    btn.innerText = "Submit Request";
-                    form.reset();
-                })
-                .catch(error => {
-                    alert('Submission recorded and processed.');
-                    btn.innerText = "Submit Request";
-                });
+            try {
+                // 2. Generate PDF Base64 string from webpage container
+                const reportElement = document.getElementById('reportContainer');
+                const pdfBase64 = await html2pdf().from(reportElement).outputPdf('datauristring');
+
+                // 3. Send Email (PDF Attachment + Text) via EmailJS to Client and Admin
+                const emailParams = {
+                    client_name: name,
+                    client_email: clientEmail,
+                    admin_email: adminEmail,
+                    text_report: plainTextReport,
+                    pdf_attachment: pdfBase64
+                };
+
+                await emailjs.send("service_ewrfzpd","template_vey8nhj", emailParams);
+
+                // 4. Trigger Direct Text Message via WhatsApp / Mobile Gateway
+                const encodedMsg = encodeURIComponent(`Hello ${name},\n\nHere is your requested LIC Proposal summary:\n- Invested: ${totalInvested}\n- Expected LIC Corpus: ${licCorpus}\n- Real Value: ${licRealValue}\n\nA copy with full PDF report has been emailed to ${clientEmail}.`);
+                window.open(`https://wa.me/91${phone}?text=${encodedMsg}`, '_blank');
+
+                alert('Report successfully sent! Plain text and PDF copies were emailed, and text message opened.');
+            } catch (err) {
+                console.error('Dispatch error:', err);
+                alert('Thank you, We will contact you.');
+            } finally {
+                btn.innerText = "Submit Request";
+            }
         });
 
         // LIC MASCOT AGENT FUNCTIONS
